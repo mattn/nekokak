@@ -1,5 +1,6 @@
 # nekokak
 
+![](https://raw.githubusercontent.com/mattn/nekokak/master/animated.gif)
 generate rotating animation gif
 
 ## Usage
