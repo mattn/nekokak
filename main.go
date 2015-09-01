@@ -19,6 +19,7 @@ import (
 var (
 	delay  = flag.Int("d", 10, "delay")
 	output = flag.String("o", "animated.gif", "output filename")
+	reverse = flag.Bool("r", false, "inverse rotation")
 )
 
 func main() {
@@ -39,10 +40,16 @@ func main() {
 		Delay:     []int{},
 		LoopCount: 0,
 	}
+
+	var base float64 = math.Pi * 2
+	if *reverse {
+		base *= -1
+	}
+
 	for i := 0; i < 360/10; i++ {
 		dst := image.NewPaletted(src.Bounds(), palette.WebSafe)
 		draw.Draw(dst, src.Bounds(), &image.Uniform{color.White}, image.ZP, draw.Src)
-		err = graphics.Rotate(dst, src, &graphics.RotateOptions{Angle: math.Pi * 2 * float64(10*i) / 360})
+		err = graphics.Rotate(dst, src, &graphics.RotateOptions{Angle: base * float64(10*i) / 360})
 		if err != nil {
 			log.Fatal(err)
 		}
