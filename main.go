@@ -28,11 +28,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer f.Close()
 	src, _, err := image.Decode(f)
 	if err != nil {
 		log.Fatal(err)
 	}
+	f.Close()
 
 	g := &gif.GIF{
 		Image:     []*image.Paletted{},
@@ -53,6 +53,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer out.Close()
 	err = gif.EncodeAll(out, g)
 	if err != nil {
 		log.Fatal(err)
