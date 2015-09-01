@@ -49,7 +49,7 @@ func main() {
 		g.Image = append(g.Image, dst)
 		g.Delay = append(g.Delay, *delay)
 	}
-	out, err := os.Create("animated.gif")
+	out, err := os.Create(*output)
 	if err != nil {
 		log.Fatal(err)
 	}
