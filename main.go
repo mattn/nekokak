@@ -17,8 +17,8 @@ import (
 )
 
 var (
-	delay  = flag.Int("d", 10, "delay")
-	output = flag.String("o", "animated.gif", "output filename")
+	delay   = flag.Int("d", 10, "delay")
+	output  = flag.String("o", "animated.gif", "output filename")
 	reverse = flag.Bool("r", false, "inverse rotation")
 )
 
