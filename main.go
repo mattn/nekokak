@@ -4,7 +4,6 @@ import (
 	"flag"
 	"image"
 	"image/color"
-	"image/color/palette"
 	"image/draw"
 	"image/gif"
 	_ "image/jpeg"
@@ -15,6 +14,7 @@ import (
 
 	"github.com/robfig/graphics-go/graphics"
 	"github.com/robfig/graphics-go/graphics/interp"
+	"github.com/soniakeys/quant/median"
 )
 
 var (
@@ -50,8 +50,10 @@ func main() {
 	}
 
 	limit := int(360 / 10 / (*speed))
+	q := median.Quantizer(256)
+	p := q.Quantize(make(color.Palette, 0, 256), src)
 	for i := 0; i < limit; i++ {
-		dst := image.NewPaletted(src.Bounds(), palette.WebSafe)
+		dst := image.NewPaletted(src.Bounds(), p)
 		draw.Draw(dst, src.Bounds(), &image.Uniform{color.White}, image.ZP, draw.Src)
 		err = graphics.Rotate(dst, src, &graphics.RotateOptions{Angle: base * float64(i)})
 		if err != nil {
@@ -59,7 +61,7 @@ func main() {
 		}
 		if *zoom {
 			w, h := float64(src.Bounds().Dx()), float64(src.Bounds().Dy())
-			tmp := image.NewPaletted(src.Bounds(), palette.WebSafe)
+			tmp := image.NewPaletted(src.Bounds(), p)
 			draw.Draw(tmp, src.Bounds(), &image.Uniform{color.White}, image.ZP, draw.Src)
 			z := float64(0.5 + float64(i)/30.0)
 			graphics.I.
