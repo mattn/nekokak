@@ -24,7 +24,7 @@ var (
 	reverse = flag.Bool("r", false, "inverse rotation")
 	speed   = flag.Float64("x", 1.0, "rotating speed")
 	zoom    = flag.Bool("z", false, "zoom animation") // experimental
-	bg      = flag.String("bg", "FFFFFF", "background color")
+	bg      = flag.String("bg", "#FFFFFF", "background color")
 )
 
 func main() {
