@@ -12,6 +12,7 @@ import (
 	"math"
 	"os"
 
+	"github.com/lucasb-eyer/go-colorful"
 	"github.com/robfig/graphics-go/graphics"
 	"github.com/robfig/graphics-go/graphics/interp"
 	"github.com/soniakeys/quant/median"
@@ -21,12 +22,18 @@ var (
 	delay   = flag.Int("d", 10, "delay")
 	output  = flag.String("o", "animated.gif", "output filename")
 	reverse = flag.Bool("r", false, "inverse rotation")
-	speed   = flag.Float64("x", 1.0, "speed")
-	zoom    = flag.Bool("z", false, "zoom") // experimental
+	speed   = flag.Float64("x", 1.0, "rotating speed")
+	zoom    = flag.Bool("z", false, "zoom animation") // experimental
+	bg      = flag.String("bg", "FFFFFF", "background color")
 )
 
 func main() {
 	flag.Parse()
+
+	c, err := colorful.Hex(*bg)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	f, err := os.Open(flag.Arg(0))
 	if err != nil {
@@ -54,7 +61,7 @@ func main() {
 	p := q.Quantize(make(color.Palette, 0, 256), src)
 	for i := 0; i < limit; i++ {
 		dst := image.NewPaletted(src.Bounds(), p)
-		draw.Draw(dst, src.Bounds(), &image.Uniform{color.White}, image.ZP, draw.Src)
+		draw.Draw(dst, src.Bounds(), &image.Uniform{c}, image.ZP, draw.Src)
 		err = graphics.Rotate(dst, src, &graphics.RotateOptions{Angle: base * float64(i)})
 		if err != nil {
 			log.Fatal(err)
@@ -62,7 +69,7 @@ func main() {
 		if *zoom {
 			w, h := float64(src.Bounds().Dx()), float64(src.Bounds().Dy())
 			tmp := image.NewPaletted(src.Bounds(), p)
-			draw.Draw(tmp, src.Bounds(), &image.Uniform{color.White}, image.ZP, draw.Src)
+			draw.Draw(tmp, src.Bounds(), &image.Uniform{c}, image.ZP, draw.Src)
 			z := float64(0.5 + float64(i)/30.0)
 			graphics.I.
 				Scale(z, z).
