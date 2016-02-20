@@ -12,9 +12,9 @@ import (
 	"math"
 	"os"
 
+	"github.com/BurntSushi/graphics-go/graphics"
+	"github.com/BurntSushi/graphics-go/graphics/interp"
 	"github.com/lucasb-eyer/go-colorful"
-	"github.com/robfig/graphics-go/graphics"
-	"github.com/robfig/graphics-go/graphics/interp"
 	"github.com/soniakeys/quant/median"
 )
 
