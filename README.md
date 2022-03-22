@@ -13,7 +13,7 @@ $ nekokak nekokak.png
 ## Installation
 
 ```
-go get github.com/mattn/nekokak
+go install github.com/mattn/nekokak@latest
 ```
 
 ## License
